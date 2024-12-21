@@ -9,11 +9,8 @@ import redis.clients.jedis.HostAndPortMapper;
 import redis.clients.jedis.UnifiedJedis;
 
 @Configuration
-public class RedisConfig_Simple {
+public class RedisConfig {
 
-	/**
-	 * Redis Configuration
-	 */
 	@Value("${redis.url:localhost}")
 	private String url;
 
