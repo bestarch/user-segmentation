@@ -33,8 +33,8 @@ public class SegmentWebController {
 
 	@PutMapping("segment/{segment}/user/{username}")
 	public ResponseEntity<?> mapUserToSegment(@PathVariable String segment, @PathVariable String username) {
-		service.mapUserToSegment(segment, username);
-		return ResponseEntity.accepted().build();
+		Boolean res = service.mapUserToSegment(segment, username);
+		return ResponseEntity.ok(res);
 	}
 
 	@GetMapping("segment/{segment}/user/{username}")

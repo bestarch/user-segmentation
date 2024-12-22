@@ -1,5 +1,9 @@
 package com.bestarch.demo.segmentation.service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,30 +14,35 @@ public class UserSegmentationService {
 	
 	@Autowired
 	UnifiedJedis unifiedJedis;
+	
+	private static String[] SEGMENTS = {"newdelhi_millenials_watched_cricket","","","",""};
 
 	public void createTestSegments() {
-		// TODO Auto-generated method stub
-		
+		for (String segment: SEGMENTS) {
+			unifiedJedis.cfReserve(segment, 30000000l);
+		}
 	}
 
 	public void createTestUsers() {
-		// TODO Auto-generated method stub
-		
+		IntStream.rangeClosed(1, 30000000).forEach(index -> {
+			String username = "user:"+index;
+			unifiedJedis.hset(username, Map.of("username", username));
+		});
 	}
 
-	public void mapUserToSegment(String segment, String username) {
-		// TODO Auto-generated method stub
+	public Boolean mapUserToSegment(String segment, String username) {
+		return unifiedJedis.cfAdd(segment, username);
 		
 	}
 
 	public Boolean isUserExists(String segment, String username) {
-		// TODO Auto-generated method stub
-		return false;
+		Boolean res = unifiedJedis.cfExists(segment, username);
+		return res;
 	}
 
 	public Boolean removeUserFromSegment(String segment, String username) {
-		// TODO Auto-generated method stub
-		return false;
+		Boolean res = unifiedJedis.cfDel(segment, username);
+		return res;
 	}
 	
 	
