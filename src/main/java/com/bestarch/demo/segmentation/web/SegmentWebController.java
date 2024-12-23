@@ -13,37 +13,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bestarch.demo.segmentation.service.UserSegmentationService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/segment")
 public class SegmentWebController {
 
 	@Autowired
 	UserSegmentationService service;
 
-	@PostMapping("segments")
+	@PostMapping("/")
 	public ResponseEntity<?> addTestSegments() {
 		service.createTestSegments();
 		return ResponseEntity.accepted().build();
 	}
 
-	@PostMapping("users")
-	public ResponseEntity<?> addTestUsers() {
-		service.createTestUsers();
+	@PostMapping("/users")
+	public ResponseEntity<?> addTestUsersToSegment() {
+		service.addTestUsersToSegment();
 		return ResponseEntity.accepted().build();
 	}
 
-	@PutMapping("segment/{segment}/user/{username}")
+	@PutMapping("/{segment}/user/{username}")
 	public ResponseEntity<?> mapUserToSegment(@PathVariable String segment, @PathVariable String username) {
 		Boolean res = service.mapUserToSegment(segment, username);
 		return ResponseEntity.ok(res);
 	}
 
-	@GetMapping("segment/{segment}/user/{username}")
+	@GetMapping("/{segment}/user/{username}")
 	public ResponseEntity<?> isUserExists(@PathVariable String segment, @PathVariable String username) {
 		Boolean res = service.isUserExists(segment, username);
 		return ResponseEntity.ok(res);
 	}
 
-	@DeleteMapping("segment/{segment}/user/{username}")
+	@DeleteMapping("/{segment}/user/{username}")
 	public ResponseEntity<?> removeUserFromSegment(@PathVariable String segment, @PathVariable String username) {
 		Boolean res = service.removeUserFromSegment(segment, username);
 		return ResponseEntity.ok(res);
